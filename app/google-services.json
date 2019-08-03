@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "150346941821",
+    "firebase_url": "https://travelmantics-57a80.firebaseio.com",
+    "project_id": "travelmantics-57a80",
+    "storage_bucket": "travelmantics-57a80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150346941821:android:3e2375ac83f2a2a6",
+        "android_client_info": {
+          "package_name": "com.sarch.travelmantic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150346941821-m47of40d9clbubmkgni85erbsij6b9ru.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sarch.travelmantic",
+            "certificate_hash": "fa2a23c124e1fec50f54e2ed8b3946a37f7eafb5"
+          }
+        },
+        {
+          "client_id": "150346941821-omk11q99cg0kk4r19nk6v9kk8rtupdbl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMQKZHYrrl1UTglPUkn2p2nX5VSYN9w-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150346941821-omk11q99cg0kk4r19nk6v9kk8rtupdbl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150346941821:android:675ec80048c6a889",
+        "android_client_info": {
+          "package_name": "com.sarch.travelmantics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150346941821-st7pof338ehki8an53cvcgmj8i4sph1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sarch.travelmantics",
+            "certificate_hash": "fa2a23c124e1fec50f54e2ed8b3946a37f7eafb5"
+          }
+        },
+        {
+          "client_id": "150346941821-omk11q99cg0kk4r19nk6v9kk8rtupdbl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMQKZHYrrl1UTglPUkn2p2nX5VSYN9w-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150346941821-omk11q99cg0kk4r19nk6v9kk8rtupdbl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
