@@ -70,5 +70,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnImage"
-        tools:src="@tools:sample/avatars" />
+        app:srcCompat="@android:color/transparent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

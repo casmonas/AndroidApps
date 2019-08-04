@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,8 +32,13 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     private ChildEventListener mChildListener;
     private ImageView imageDeal;
 
+    private Context mContext;
+
     public DealAdapter() {
         //FirebaseUtil.openFbReference("traveldeals");
+
+
+
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         this.deals = FirebaseUtil.mDeals;
@@ -40,6 +46,11 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                TravelDeal td = dataSnapshot.getValue(TravelDeal.class);
+                Log.d("Deal: ", td.getTitle());
+                td.setId(dataSnapshot.getKey());
+                deals.add(td);
+                notifyItemInserted(deals.size()-1);
             }
 
             @Override
@@ -78,6 +89,10 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     public void onBindViewHolder(@NonNull DealAdapter.DealViewHolder holder, int position) {
 
         TravelDeal deal = deals.get(position);
+        //holder.bind(deal);
+
+
+
         holder.bind(deal);
     }
 
@@ -96,7 +111,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvPrice =  itemView.findViewById(R.id.tvPrice);
-            imageDeal = (ImageView) itemView.findViewById(R.id.imageDeal);
+            imageDeal = itemView.findViewById(R.id.imageDeal);
             itemView.setOnClickListener(this);
         }
 
@@ -118,12 +133,16 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         }
 
         private void showImage(String url) {
-            if (url != null && url.isEmpty()==false) {
+            if (url != null && !url.isEmpty()) {
                 Picasso.with(imageDeal.getContext())
                         .load(url)
                         .resize(160, 160)
                         .centerCrop()
                         .into(imageDeal);
+
+               // Glide.with(imageDeal.getContext()).load(url).into(imageDeal);
+
+
             }
         }
     }
