@@ -20,12 +20,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.Objects;
 
 public class DealsActivity extends AppCompatActivity {
@@ -71,12 +73,12 @@ public class DealsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 //intent.setType("image/jpeg");
-                intent.setType("image/*");
+                intent.setType("image/jpeg");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                // startActivityForResult(intent.createChooser(intent,
-                startActivityForResult(Intent.createChooser(intent,
+                startActivityForResult(intent.createChooser(intent,
                         "Insert Picture"), PICTURE_RESULT);
-                startActivityForResult(intent, REQUESCODE);
+               // startActivityForResult(intent, REQUESCODE);
             }
         });
 
@@ -116,22 +118,59 @@ public class DealsActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
             imageView.setImageURI(imageUri);
 
+            File file = new File(String.valueOf(imageUri));
+
+
             StorageReference ref = FirebaseUtil.mStorageRef.child(imageUri.getLastPathSegment());
 
-            ref.putFile(imageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            /*ref.putFile(imageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     //String url = taskSnapshot.getDownloadUrl().toString();
-                    //String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-                    String url = Objects.requireNonNull(Objects.requireNonNull(taskSnapshot.getMetadata()).getReference()).getDownloadUrl().toString();
-                    String pictureName = taskSnapshot.getStorage().getPath();
+                    final String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                    //String url = Objects.requireNonNull(Objects.requireNonNull(taskSnapshot.getMetadata()).getReference()).getDownloadUrl().toString();
+                    final String pictureName = taskSnapshot.getStorage().getPath();
                     deal.setImageUrl(url);
                     deal.setImageName(pictureName);
                     Log.d("Url: ", url);
                     Log.d("Name", pictureName);
                     showImage(url);
+
+
+
+
                 }
-            });
+            });*/
+
+
+            ref.child(file.getName()).putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //pd.dismiss();
+                            Toast.makeText(DealsActivity.this, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                            Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+
+                            if(downloadUri.isSuccessful()){
+                                String generatedFilePath = downloadUri.getResult().toString();
+
+                                //mine
+                                final String pictureName = taskSnapshot.getStorage().getPath();
+                                deal.setImageUrl(generatedFilePath);
+                                deal.setImageName(pictureName);
+                                Log.d("Url: ", generatedFilePath);
+                                Log.d("Name", pictureName);
+                                showImage(generatedFilePath);
+
+                                System.out.println("## Stored path is "+generatedFilePath);
+                            }}
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //pd.dismiss();
+                        }
+                    });
 
             
 
