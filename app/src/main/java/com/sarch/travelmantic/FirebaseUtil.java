@@ -1,5 +1,6 @@
 package com.sarch.travelmantic;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,9 +30,19 @@ public class FirebaseUtil {
     public static ArrayList<TravelDeal> mDeals;
     private static final int RC_SIGN_IN = 123;
     private static ListActivity caller;
-    private FirebaseUtil(){};
+
     public static boolean isAdmin;
 
+    private FirebaseUtil(){};
+
+    // Configuring offline persistence
+    public static FirebaseDatabase getDatabase() {
+        if (mFirebaseDatabase == null) {
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mFirebaseDatabase.setPersistenceEnabled(true);
+        }
+        return mFirebaseDatabase;
+    }
 
     public static void openFbReference(String ref, final ListActivity callerActivity) {
         if (firebaseUtil == null) {
@@ -76,11 +87,22 @@ public class FirebaseUtil {
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .setIsSmartLockEnabled(false)
+                        .setLogo(R.drawable.france)
                         .build(),
                 RC_SIGN_IN);
     }
 
-    private static void checkAdmin(String uid) {
+    public static void signOut() {
+        AuthUI.getInstance()
+                .signOut(caller)
+                .addOnCompleteListener(task -> {
+                    Log.d("Logout", "User Logged Out");
+                    Toast.makeText(caller, "Signed Out Successfully", Toast.LENGTH_SHORT).show();
+                    FirebaseUtil.attachListener();
+                });
+    }
+
+    public static void checkAdmin(String uid) {
         FirebaseUtil.isAdmin=false;
         DatabaseReference ref = mFirebaseDatabase.getReference().child("administrators")
                 .child(uid);
@@ -88,6 +110,7 @@ public class FirebaseUtil {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 FirebaseUtil.isAdmin=true;
+                Log.d("Admin", "onChildAdded: You are an administrator");
                 caller.showMenu();
             }
 
@@ -122,6 +145,6 @@ public class FirebaseUtil {
     }
     public static void connectStorage() {
         mStorage = FirebaseStorage.getInstance();
-        mStorageRef = mStorage.getReference().child("deals_pictures");
+        mStorageRef = mStorage.getReference().child("pictures");
     }
 }

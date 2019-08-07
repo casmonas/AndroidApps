@@ -1,5 +1,7 @@
 package com.sarch.travelmantic;
 
+
+
 import java.io.Serializable;
 
 public class TravelDeal implements Serializable {
@@ -10,11 +12,11 @@ public class TravelDeal implements Serializable {
     private String imageUrl;
     private String imageName;
 
-    private String imageUri;
+
 
     public TravelDeal(){}
 
-    public TravelDeal(String title, String description, String price, String imageUrl, String imageName,String imageUri) {
+    public TravelDeal(String title, String description, String price, String imageUrl, String imageName) {
         this.setId(id);
         this.setTitle(title);
         this.setDescription(description);
@@ -22,7 +24,6 @@ public class TravelDeal implements Serializable {
         this.setImageUrl(imageUrl);
         this.setImageName(imageName);
 
-        this.setImageUri(imageUri);
     }
 
     public String getId() {
@@ -75,6 +76,5 @@ public class TravelDeal implements Serializable {
     }
 
 
-    public String getImageUri(){return imageUri;}
-    public void setImageUri (String imageUri){this.imageUri = imageUri;}
+
 }

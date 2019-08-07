@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-//chika
+
 
 public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder> {
 
@@ -30,14 +30,11 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
-    private ImageView imageDeal;
 
-    private Context mContext;
+
+
 
     public DealAdapter() {
-        //FirebaseUtil.openFbReference("traveldeals");
-
-
 
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
@@ -78,7 +75,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
 
     @NonNull
     @Override
-    public DealAdapter.DealViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DealViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View itemView = LayoutInflater.from(context)
                 .inflate(R.layout.rv_rows, parent, false);
@@ -89,11 +86,12 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     public void onBindViewHolder(@NonNull DealAdapter.DealViewHolder holder, int position) {
 
         TravelDeal deal = deals.get(position);
-        //holder.bind(deal);
+        holder.tvTitle.setText(deal.getTitle());
+        holder.tvDescription.setText(deal.getDescription());
+        holder.tvPrice.setText(deal.getPrice());
+        FirebaseUtil.connectStorage();
+        holder.showImage(deal.getImageUrl());
 
-
-
-        holder.bind(deal);
     }
 
     @Override
@@ -105,9 +103,12 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     View.OnClickListener{
 
         TextView tvTitle,tvDescription,tvPrice;
+        ImageView imageDeal;
+        Context context;
 
         public DealViewHolder(@NonNull View itemView) {
             super(itemView);
+            context = itemView.getContext();
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvPrice =  itemView.findViewById(R.id.tvPrice);
@@ -115,12 +116,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             itemView.setOnClickListener(this);
         }
 
-        public void bind(TravelDeal deal) {
-            tvTitle.setText(deal.getTitle());
-            tvDescription.setText(deal.getDescription());
-            tvPrice.setText(deal.getPrice());
-            showImage(deal.getImageUrl());
-        }
 
         @Override
         public void onClick(View view) {
@@ -140,7 +135,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
                         .centerCrop()
                         .into(imageDeal);
 
-               // Glide.with(imageDeal.getContext()).load(url).into(imageDeal);
+
 
 
             }
